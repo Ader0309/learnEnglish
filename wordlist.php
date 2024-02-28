@@ -1,6 +1,9 @@
 <?php
 require_once("./db_connect.php");
 
+
+$perPage = 25;
+
 if (isset($_GET["status"])) {
     if ($_GET["status"] == 1) {
         $sqlAll = "SELECT * FROM vocab WHERE valid=1 and important=1";
@@ -75,18 +78,34 @@ if ($rowCount > 0) {
                     <div class="card text-center">
                         <div class="card-body d-flex flex-column align-items-center justify-content-between">
                             <div class="main-text">
-                                <a href="./deleteImportant.php?id=<?= $row["id"] ?>"><i class="fa-solid fa-star text-warning" <?php if ($row["important"] == 0) {
-                                                                                                                                    echo "style=display:none";
-                                                                                                                                } ?>></i></a>
+                                <a href="./deleteImportant.php?id=<?= $row["id"] ?>">
+                                    <!-- 判斷是否有加入星號，才顯示 -->
+                                    <i class="fa-solid fa-star text-warning" <?php if ($row["important"] == 0) {
+                                                                                    echo "style=display:none";
+                                                                                } ?>></i></a>
                                 <div class="english d-inline-block"><?= $row["english"] ?></div>
                                 <div class="chinese my-1 " style="display:none"><?= $row["chinese"] ?></div>
                             </div>
+                            <!-- ICON -->
                             <div class="d-flex justify-content-around icon">
                                 <a href="#"><i class="fa-solid fa-pen-to-square"></i></a></td>
-                                <a href="./doImportant.php?id=<?= $row["id"] ?>"><i class="fa-solid fa-star text-warning" <?php if ($row["important"] == 1) {
-                                                                                                                                echo "style=display:none";
-                                                                                                                            } ?>></i></a>
-                                <a href="./doDelete.php?id=<?= $row["id"] ?>"><i class="fa-solid fa-trash-can text-danger"></i></a>
+                                <a href="./doImportant.php?id=<?= $row["id"] ?>">
+                                    <!-- 若已加星號或已刪除，不顯示星號 -->
+                                    <i class="fa-solid fa-star 
+                                    text-warning" <?php if ($row["important"] == 1 || $row["valid"] == 0) {
+                                                        echo "style=display:none";
+                                                    } ?>></i></a>
+                                <a href="./doDelete.php?id=<?= $row["id"] ?>">
+                                    <!-- 若已刪除，不顯示垃圾桶 -->
+                                    <i class="fa-solid fa-trash-can 
+                                    text-danger" <?php if ($row["valid"] == 0) {
+                                                        echo "style=display:none";
+                                                    } ?>></i></a>
+                                <a href="./doRefresh.php?id=<?= $row["id"] ?>">
+                                    <!-- 若已刪除，才顯示加回 -->
+                                    <i class="fa-solid fa-rotate-left" <?php if ($row["valid"] == 1) {
+                                                                            echo "style=display:none";
+                                                                        } ?>></i></a>
                             </div>
 
                         </div>
@@ -116,6 +135,13 @@ if ($rowCount > 0) {
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     <script>
+        // 卡片淡入效果
+        $(function() {
+            $(".card").hide().each(function(index) {
+                $(this).delay(index * 50).fadeIn(100);
+            })
+        })
+        // 卡片點擊顯示中文
         $(".card").click(function() {
             $(this).find(".chinese").css("display", "block");
         })

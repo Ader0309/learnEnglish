@@ -28,6 +28,7 @@
                     font-size: 20px;
                     color: peru;
                     font-weight: 900;
+                    border-bottom: 3px solid peru;
                 }
             }
         }
@@ -36,7 +37,7 @@
     .icon {
         width: 80px;
         padding-top: 5px;
-        border-top: 3px solid peru;
+        /* border-top: 3px solid peru; */
     }
 
     /* ------------新增單字頁面-------------- */
