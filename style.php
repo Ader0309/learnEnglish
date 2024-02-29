@@ -7,6 +7,10 @@
         background: repeating-linear-gradient(45deg, pink, lightblue);
     }
 
+    h1 {
+        color: peru;
+    }
+
     /* ------------單字列表頁面-------------- */
     .card {
         width: 180px;
@@ -24,11 +28,19 @@
 
             /* padding: 10px; */
             .main-text {
-                .english {
+                & .english {
                     font-size: 20px;
                     color: peru;
                     font-weight: 900;
                     border-bottom: 3px solid peru;
+                }
+
+                & .chinese {
+                    display: none;
+
+                    &.dblock {
+                        display: block;
+                    }
                 }
             }
         }
