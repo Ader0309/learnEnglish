@@ -2,8 +2,12 @@
 require_once("./db_connect.php");
 
 // 設定一頁幾筆資料
-// $perPage = $_GET["perP"];
-$perPage = 25;
+if (isset($_POST["perP"])) {
+    $perPage = $_POST["perP"];
+} else {
+    $perPage = 50;
+}
+
 if (!isset($_GET["p"])) {
     $p = 1;
     $pageLimit = "LIMIT $perPage";
@@ -16,12 +20,12 @@ if (!isset($_GET["p"])) {
 // 取得單頁的資料
 if (isset($_GET["status"])) {
     if ($_GET["status"] == 1) {
-        $sql = "SELECT * FROM vocab WHERE valid=1 and important=1 $pageLimit";
+        $sql = "SELECT * FROM vocab WHERE valid=1 and important=1 ORDER BY english ASC $pageLimit";
     } else if ($_GET["status"] == 2) {
-        $sql = "SELECT * FROM vocab WHERE valid=0 $pageLimit";
+        $sql = "SELECT * FROM vocab WHERE valid=0 ORDER BY english ASC $pageLimit";
     }
 } else {
-    $sql = "SELECT * FROM vocab WHERE valid=1 $pageLimit";
+    $sql = "SELECT * FROM vocab WHERE valid=1 ORDER BY english ASC $pageLimit";
 }
 $result = $conn->query($sql);
 $rowCount = $result->num_rows;
@@ -30,12 +34,12 @@ $rowCount = $result->num_rows;
 // 取得符合狀態的所有資料筆數
 if (isset($_GET["status"])) {
     if ($_GET["status"] == 1) {
-        $sqlAll = "SELECT * FROM vocab WHERE valid=1 and important=1";
+        $sqlAll = "SELECT * FROM vocab WHERE valid=1 and important=1 ORDER BY english ASC";
     } else if ($_GET["status"] == 2) {
-        $sqlAll = "SELECT * FROM vocab WHERE valid=0";
+        $sqlAll = "SELECT * FROM vocab WHERE valid=0 ORDER BY english ASC";
     }
 } else {
-    $sqlAll = "SELECT * FROM vocab WHERE valid=1";
+    $sqlAll = "SELECT * FROM vocab WHERE valid=1 ORDER BY english ASC";
 }
 $resultAll = $conn->query($sqlAll);
 $rowAllCount = $resultAll->num_rows;
@@ -112,7 +116,7 @@ if ($rowCount > 0) {
                 <div class="row align-items-center">
                     <div class="col-1 text-center text-nowrap offset-9 ">每頁顯示</div>
                     <div class="col-2">
-                        <select name="perP" id="" class="form-select">
+                        <select name="perP" id="perP" class="form-select">
                             <option value="25">25</option>
                             <option value="50" selected>50</option>
                             <option value="100">100</option>
@@ -121,7 +125,7 @@ if ($rowCount > 0) {
                 </div>
             </div>
             <!-- 內容 -->
-            <div class="col-9 d-flex flex-wrap align-items-stretch gap-3 justify-content-center">
+            <div class="col-9 d-flex flex-wrap align-items-stretch gap-3 justify-content-center" id="content">
                 <?php if ($rowCount == 0) : ?>
                     <h1 class="text-center">暫無資料</h1>
                 <?php else : ?>
@@ -158,7 +162,6 @@ if ($rowCount > 0) {
                                                                                 echo "style=display:none";
                                                                             } ?>></i></a>
                                 </div>
-
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -198,7 +201,7 @@ if ($rowCount > 0) {
         // 卡片淡入效果
         // $(function() {
         //     $(".card").hide().each(function(index) {
-        //         $(this).delay(index * 50).fadeIn(100);
+        //         $(this).delay(index * 400).fadeIn(400);
         //     })
         // })
 
@@ -210,6 +213,22 @@ if ($rowCount > 0) {
         // 點擊icon時，阻止發泡事件(卡片點擊顯示)
         $(".icon a").click(function(e) {
             e.stopPropagation()
+        })
+
+        $("#perP").on("change", function() {
+            let perP = $(this).val();
+            $.ajax({
+                method: "POST",
+                data: {
+                    perP: perP
+                },
+                success: function(response) {
+                    console.log("success");
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX request fail:", error);
+                }
+            })
         })
     </script>
 </body>
