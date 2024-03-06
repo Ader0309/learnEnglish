@@ -15,9 +15,9 @@
 </head>
 
 <body>
-    <div class="container text-center my-3 bm">
-        <div class="newbox">
-            <h1>新增單字</h1>
+    <div class="container text-center my-3">
+        <h1>新增單字</h1>
+        <div class="newbox bm">
             <div class="row justify-content-end">
                 <div class="col-4">
                     <form action="doInsert.php" method="post">
@@ -40,7 +40,7 @@
                             <a class="btn btn-primary mb-2" href="./wordlist.php">單字列表</a>
                         </div>
                         <div class="col-7">
-                            <a class="btn btn-primary">隨機測驗</a>
+                            <a class="btn btn-primary" href="./random-test.php">隨機測驗</a>
                         </div>
                     </div>
                 </div>

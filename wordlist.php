@@ -1,7 +1,6 @@
 <?php
 require_once("./getData.php")
 ?>
-
 <!doctype html>
 <html lang="en">
 
@@ -61,7 +60,7 @@ require_once("./getData.php")
                     </div>
                     <div>
                         <a class="btn btn-primary" href="./insert-word.php">加入單字</a>
-                        <a class="btn btn-primary">隨機測驗</a>
+                        <a class="btn btn-primary" href="./random-test.php">隨機測驗</a>
                     </div>
                 </div>
             </div>

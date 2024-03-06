@@ -64,4 +64,29 @@
         background: rgba(255, 255, 255, 0.2);
         border-radius: 20px
     }
+
+
+    /* ---------------隨機測驗-------------------- */
+    #start {
+        margin-top: 150px;
+    }
+
+    .ans {
+        width: 700px;
+    }
+
+    .ans-o {
+        width: 40px;
+        height: 30px;
+        /* background: red; */
+        border-bottom: 3px solid red;
+    }
+
+    .wrap {
+        margin-top: 100px;
+
+        & .ans {
+            margin-top: 30px;
+        }
+    }
 </style>
