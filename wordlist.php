@@ -200,13 +200,13 @@ require_once("./getData.php")
             let perP = $(this).val();
             $(this).closest("form").submit();
             // $.ajax({
-            //     method: "POST",
+            //     method: "GET",
             //     data: {
             //         perP: perP
             //     },
             //     url: "getData.php",
             //     success: function(data) {
-            //         console.log("success", data);
+            //         console.log("success");
             //     }
             // })
         })
